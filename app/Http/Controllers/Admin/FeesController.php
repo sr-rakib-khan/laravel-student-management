@@ -47,11 +47,15 @@ class FeesController extends Controller
             foreach ($students as $student) {
                 // collect tusion fee from students table
                 $tusionFee = $student->tusion_fees;
+
+                $discount = $student->discount;
+                $tusionfee_after_discount = $tusionFee - $discount;
+
                 //update student_due table
                 $current_due = DB::table('student_dues')->where('student_id', $student->id)->value('due_amount');
 
                 DB::table('student_dues')->where('student_id', $student->id)->update([
-                    'due_amount' => $current_due + $tusionFee
+                    'due_amount' => $current_due + $tusionfee_after_discount,
                 ]);
 
 
@@ -64,9 +68,13 @@ class FeesController extends Controller
                     'common_fee' => 0,
                     'extra_discount' => 0,
                     'due' => $current_due,
+                    'monthly_discount' => $discount,
+                    'fee_afterdiscount' => $tusionfee_after_discount,
+                    'net_fee' => $current_due + $tusionfee_after_discount,
                     'payment' => 0,
                     'feehead_id' => 0,
                     'year' => $year,
+                    'created_at' => date("Y-m-d"),
                 ]);
             }
 
