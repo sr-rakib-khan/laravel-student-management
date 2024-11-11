@@ -10,7 +10,7 @@ class AccountController extends Controller
 {
     function StudentAccountDetails($id)
     {
-        $student = DB::table('Students')->where('id', $id)->first();
+        $student = DB::table('students')->where('id', $id)->first();
         return view('payment.student_account', compact('student'));
     }
 }

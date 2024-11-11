@@ -110,14 +110,17 @@ class StudentmanageController extends Controller
             'feehead_id' => 0,
             'fees_month' => "Addmission",
             'tusion_fee' => 0,
+            'monthly_discount' => 0,
+            'fee_afterdiscount' => 0,
             'common_fee' =>  $addmission_fee->fee_amount,
             'extra_discount' => 0,
+            'net_fee' => $addmission_fee->fee_amount,
             'due' => 0,
             'payment' => 0,
             'fee_details' => "Admission fee",
-            'year' => date('y'),
+            'year' => date('Y'),
+            'created_at' => date("Y-m-d"),
         ]);
-
         $successmessage = 0;
 
         //working with sms

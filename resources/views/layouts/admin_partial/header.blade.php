@@ -1,4 +1,4 @@
-<div class="header">
+<div style="background-color: #D2D4D9" class="header">
     <div class="header-left active">
         <a href="index.html" class="logo">
             {{-- <img src="{{ asset('assets/img/logo.png') }}" alt="" /> --}}

@@ -1,5 +1,5 @@
 <div class="sidebar" id="sidebar">
-    <div class="sidebar-inner slimscroll">
+    <div style="background-color: #D2D4D9" class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="active">

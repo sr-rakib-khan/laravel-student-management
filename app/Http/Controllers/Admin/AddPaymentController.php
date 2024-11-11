@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Batch;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class AddPaymentController extends Controller
@@ -63,6 +64,8 @@ class AddPaymentController extends Controller
             $due = 0;
         } elseif ($request->due_amount > $request->pay_amount) {
             $due = $request->due_amount - $request->pay_amount;
+        } else {
+            $due = 0;
         }
 
 
@@ -73,16 +76,17 @@ class AddPaymentController extends Controller
 
             //update fess table
             $extra_discount = 0;
-            if ($request->extra_discount == null) {
-                $extra_discount;
+            if ($request->extra_discount == null || $request->extra_discount == 0) {
+                $extra_discount = 0;
             } else {
                 $extra_discount = $request->extra_discount;
             }
 
             $fess_collect = DB::table('fess')->where('student_id', $request->student_id)->where('fees_month', $request->feehead)->update([
                 'extra_discount' => $extra_discount,
-                'payment' => $request->pay_amount,
-                'due' => $due,
+                'payment' => $request->pay_amount - $extra_discount,
+                'summary' => 0,
+                'updated_at' => date('Y-m-d'),
             ]);
 
             //update student_due table
@@ -94,16 +98,18 @@ class AddPaymentController extends Controller
 
             //update fess table
             $extra_discount = 0;
-            if ($request->extra_discount == null) {
-                $extra_discount;
+            if ($request->extra_discount == null || $request->extra_discount == 0) {
+                $extra_discount = 0;
             } else {
                 $extra_discount = $request->extra_discount;
             }
 
             $fess_collect = DB::table('fess')->where('student_id', $request->student_id)->where('fees_month', $fees_month)->update([
                 'extra_discount' => $extra_discount,
-                'payment' => $request->pay_amount,
-                'due' => $due,
+                'payment' => $request->pay_amount - $extra_discount,
+                'summary' => 0,
+                'updated_at' => date('Y-m-d'),
+
             ]);
 
 

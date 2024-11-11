@@ -52,7 +52,10 @@ class FeesController extends Controller
                 $tusionfee_after_discount = $tusionFee - $discount;
 
                 //update student_due table
+
                 $current_due = DB::table('student_dues')->where('student_id', $student->id)->value('due_amount');
+
+                // dd($current_due);
 
                 DB::table('student_dues')->where('student_id', $student->id)->update([
                     'due_amount' => $current_due + $tusionfee_after_discount,
@@ -72,6 +75,7 @@ class FeesController extends Controller
                     'fee_afterdiscount' => $tusionfee_after_discount,
                     'net_fee' => $current_due + $tusionfee_after_discount,
                     'payment' => 0,
+                    'summary' => $current_due + $tusionfee_after_discount,
                     'feehead_id' => 0,
                     'year' => $year,
                     'created_at' => date("Y-m-d"),

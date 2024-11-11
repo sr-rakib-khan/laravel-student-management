@@ -67,6 +67,7 @@
                                 @foreach ($students as $item)
                                     @php
                                         $fee_head = DB::table('feeheads')->where('status', 1)->get();
+
                                         $student_due = DB::table('student_dues')
                                             ->where('student_id', $item->id)
                                             ->first();
