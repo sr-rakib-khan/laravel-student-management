@@ -202,6 +202,8 @@
                                         ->where('student_id', $student->id)
                                         ->first();
 
+                                        
+
                                     $total_fee = $common_fee + $tution_fee;
                                     $total_discount = $monthly_discount + $extra_discount;
 
@@ -219,7 +221,7 @@
                                     <td></td>
                                     <td></td>
                                     <td><strong>{{ $total_pay }}</strong></td>
-                                    @if ($due_amount->due_amount == 0)
+                                    @if ($due_amount->due_amount <= 0)
                                         <td class="text-success"><strong>Full Paid</strong></td>
                                     @else
                                         <td class="bg-danger"><strong>Dues:{{ $due_amount->due_amount }}</strong></td>

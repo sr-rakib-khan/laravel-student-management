@@ -132,7 +132,7 @@ class StudentmanageController extends Controller
             $api_key = $sms_settings->sms_key;
             $senderid = $sms_settings->sender_id;
             $number = $request->sms_mobile;
-            $message = "Dear {$request->student_name}, Your Admission has been successfully completed. {$sms_settings->footer_text}";
+            $message = "Dear {$request->student_name}, Add student successfully. {$sms_settings->footer_text}";
 
             $data = [
                 "api_key" => $api_key,
