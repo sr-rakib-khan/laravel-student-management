@@ -1,3 +1,8 @@
+
+@php
+    $user = DB::table('users')->where('id', auth()->id())->first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +18,7 @@
 
 
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset($user->photo) }}" />
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
 

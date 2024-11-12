@@ -7,6 +7,8 @@
     @endphp
     <div class="page-wrapper">
         <div class="content">
+            <h2>Dashboard</h2>
+            <h4>Welcome to <strong class="text-success">{{ auth()->user()->name }}</strong></h4>
             <div class="row">
                 <div class="col-lg-3 col-sm-6 col-12 mt-5">
                     {{-- <a href="{{ route('all.batch') }}">

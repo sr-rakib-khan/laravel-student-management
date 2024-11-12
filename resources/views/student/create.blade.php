@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-lg-12 col-sm-6 col-12">
                                 <div class="form-check form-switch">
-                                    <input name="status" class="form-check-input" type="checkbox">
+                                    <input name="status" class="form-check-input" type="checkbox" checked>
                                     <label class="form-check-label">Active Student (for this course)</label>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                             </div>
                             <div class="col-lg-12 col-sm-6 col-12">
                                 <div class="form-check form-switch">
-                                    <input name="sms" class="form-check-input" type="checkbox">
+                                    <input name="sms" class="form-check-input" type="checkbox" checked>
                                     <label class="form-check-label">Send Admission Sms</label>
                                 </div>
                             </div>
