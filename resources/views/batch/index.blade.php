@@ -7,7 +7,7 @@
                     <h4>Batch Manager</h4>
                 </div>
                 <div class="page-btn">
-                    <a href="{{route('running.batch')}}" class="btn btn-primary">All Running Batch</a>
+                    <a href="{{ route('running.batch') }}" class="btn btn-primary">All Running Batch</a>
                 </div>
             </div>
 

@@ -37,6 +37,12 @@
                         </thead>
                         <tbody>
                             @foreach ($running_batch as $key => $item)
+                                @php
+                                    $student_count = DB::table('students')
+                                        ->where('batch_id', $item->id)
+                                        ->count();
+                                @endphp
+
                                 <tr>
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $item->course_name }}</td>
@@ -44,11 +50,13 @@
                                     <td>{{ $item->session }}</td>
                                     <td>{{ $item->monthly_fee }}.00</td>
                                     <td>
-                                        <a class="badge rounded-pill bg-primary" href="">Students()</a>
-                                        <a class="badge rounded-pill bg-success" href="">Add Payment</a>
-                                        <a class="badge rounded-pill bg-secondary"
+                                        <a type="button" class="btn btn-sm btn-primary text-white"
+                                            href="{{ route('batch.studentlist', $item->id) }}">Students({{ $student_count }})</a>
+                                        <a type="button" class="btn btn-success btn-sm text-white" href="">Add
+                                            Payment</a>
+                                        <a type="button" class="btn btn-sm btn-secondary text-white"
                                             href="{{ route('batchfee.list', $item->id) }}">Batch Fee</a>
-                                        <a class="badge rounded-pill bg-info" href=""><i
+                                        <a type="button" class="btn btn-info btn-sm text-white" href=""><i
                                                 class="fa-solid fa-print"></i> Account Summary</a>
                                     </td>
                                 </tr>

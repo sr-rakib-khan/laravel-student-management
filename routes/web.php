@@ -105,6 +105,14 @@ Route::middleware('auth')->group(function () {
 
 
         Route::get('/running-batch', [BatchController::class, 'RunningBatch'])->name('running.batch');
+
+        Route::get('/running-batch/student-list/{id}', [BatchController::class, 'RunningBatchStudent'])->name('batch.studentlist');
+
+        Route::get('/running-batch/active-student-list/{id}', [BatchController::class, 'BatchActiveStudent'])->name('batch.active.student');
+
+        Route::get('/running-batch/inactive-student-list/{id}', [BatchController::class, 'BatchInactiveStudent'])->name('batch.inactive.student');
+
+        Route::get('/running-batch/section-student-list/{id}/{batch_id}', [BatchController::class, 'SectionStudents'])->name('section.students');
     });
 
 

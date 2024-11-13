@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -111,8 +112,44 @@ class BatchController extends Controller
             ->join('courses', 'batches.course_id', '=', 'courses.id')->where('batches.status', 1)->select('batches.*', 'courses.course_name')
             ->get();
 
-        // return response()->json($running_batch);
-
         return view('batch.running_batch', compact('running_batch'));
+    }
+
+
+    function RunningBatchStudent($id)
+    {
+        $batch_id = $id;
+
+        $batch_studentlist = Student::where('batch_id', $id)->get();
+        return view('batch.batch_students', compact('batch_studentlist', 'batch_id'));
+    }
+
+
+    //BatchActiveStudent
+
+    function BatchActiveStudent($id)
+    {
+        $batch_id = $id;
+        $batch_active_students = DB::table('students')->where('batch_id', $id)->where('status', 1)->get();
+
+        return view('batch.batch_active_students', compact('batch_active_students', 'batch_id'));
+    }
+
+    //BatchInactiveStudent
+    function BatchInactiveStudent($id)
+    {
+        $batch_id = $id;
+        $inactive_students = DB::table('students')->where('batch_id', $id)->where('status', 0)->get();
+
+        return view('batch.batch_inactive_students', compact('inactive_students', 'batch_id'));
+    }
+
+    //SectionStudents
+    function SectionStudents($id, $batch_std_id)
+    {
+        $batch_id = $batch_std_id;
+
+        $section_students = DB::table('students')->where('section_id', $id)->get();
+        return view('batch.section_wise_student', compact('batch_id', 'section_students'));
     }
 }

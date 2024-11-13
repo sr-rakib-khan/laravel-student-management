@@ -20,6 +20,8 @@
                     <h2>Student Profile</h2>
                 </div>
                 <div class="col-md-6 mt-3 text-end">
+                    <a type="button" href="{{ route('student.account', $student->id) }}" class="btn btn-success">Add
+                        Payment</a>
                     <a type="button" href="{{ route('student.account', $student->id) }}" class="btn btn-primary">Account</a>
                 </div>
             </div>
