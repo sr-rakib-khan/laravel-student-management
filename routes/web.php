@@ -299,6 +299,8 @@ Route::middleware('auth')->group(function () {
 
         //pay search
         Route::get('/search-pay-list', [AddPaymentController::class, 'Paysearch'])->name('search.pay');
+
+        Route::get('/get-batches/{courseId}', [AddPaymentController::class, 'GetbatchesforAllpay']);
     });
 
 

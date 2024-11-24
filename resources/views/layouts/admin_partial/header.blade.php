@@ -1,8 +1,9 @@
 <div style="background-color: #D2D4D9" class="header">
     <div class="header-left active">
-        <a href="index.html" class="logo">
+        <a href="{{ route('dashboard') }}" class="logo">
             {{-- <img src="{{ asset('assets/img/logo.png') }}" alt="" /> --}}
-            <h3>Anando</h3>
+            <h5>Student Management</h5>
+
         </a>
         <a href="index.html" class="logo-small">
             <img src="{{ asset('assets/img/logo-small.png') }}" alt="" />

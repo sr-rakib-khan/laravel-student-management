@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 04, 2024 at 03:30 PM
+-- Generation Time: Nov 24, 2024 at 02:58 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.21
 
@@ -67,8 +67,7 @@ CREATE TABLE `batchfees` (
 --
 
 INSERT INTO `batchfees` (`id`, `course_id`, `feehead_id`, `fee_name`, `fee_amount`, `created_at`, `updated_at`) VALUES
-(1, '1', '13', 'Addmission Fee for admit new class', '2000', '2024-09-13 08:00:19', '2024-09-13 09:35:07'),
-(3, '2', '13', 'Addmission Fee for admit new class', '2000', '2024-10-29 22:53:03', '2024-10-29 22:53:03');
+(1, '1', '13', 'Addmission Fee for admit new class', '2000', '2024-09-13 08:00:19', '2024-09-13 09:35:07');
 
 -- --------------------------------------------------------
 
@@ -205,12 +204,12 @@ CREATE TABLE `fees_months` (
 --
 
 INSERT INTO `fees_months` (`id`, `fees_month`, `created_at`, `updated_at`) VALUES
-(5, 'January-2024', NULL, NULL),
-(6, 'October-2024', NULL, NULL),
-(7, 'February-2024', NULL, NULL),
-(8, 'March-2024', NULL, NULL),
-(9, 'November-2024', NULL, NULL),
-(10, 'December-2024', NULL, NULL);
+(3, 'January-2024', NULL, NULL),
+(4, 'February-2024', NULL, NULL),
+(5, 'March-2024', NULL, NULL),
+(6, 'April-2024', NULL, NULL),
+(7, 'May-2024', NULL, NULL),
+(8, 'June-2024', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -224,10 +223,14 @@ CREATE TABLE `fess` (
   `feehead_id` int NOT NULL,
   `fees_month` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tusion_fee` decimal(10,2) NOT NULL,
+  `monthly_discount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fee_afterdiscount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `net_fee` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `common_fee` decimal(8,2) NOT NULL,
   `extra_discount` decimal(8,2) NOT NULL,
   `due` decimal(8,2) NOT NULL,
   `payment` decimal(8,2) NOT NULL,
+  `summary` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `fee_details` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -238,16 +241,14 @@ CREATE TABLE `fess` (
 -- Dumping data for table `fess`
 --
 
-INSERT INTO `fess` (`id`, `student_id`, `feehead_id`, `fees_month`, `tusion_fee`, `common_fee`, `extra_discount`, `due`, `payment`, `created_at`, `updated_at`, `fee_details`, `year`) VALUES
-(1, 9, 0, 'January-2024', 1000.00, 0.00, 0.00, 0.00, 0.00, NULL, NULL, 'january tusion fee', ''),
-(2, 9, 0, 'October-2024', 1000.00, 0.00, 0.00, 0.00, 0.00, NULL, NULL, 'octobar tusion fee', ''),
-(3, 9, 0, 'November-2024', 1000.00, 0.00, 0.00, 0.00, 0.00, NULL, NULL, 'novembar tusion fee', '2024'),
-(4, 30, 0, 'November-2024', 1000.00, 0.00, 0.00, 0.00, 2000.00, NULL, NULL, 'novembar tusion fee', '2024'),
-(5, 9, 0, 'December-2024', 1000.00, 0.00, 0.00, 0.00, 0.00, NULL, NULL, 'december tusion fee', '2024'),
-(6, 30, 0, 'December-2024', 1000.00, 0.00, 0.00, 0.00, 0.00, NULL, NULL, 'december tusion fee', '2024'),
-(7, 31, 0, 'Addmission', 0.00, 2000.00, 0.00, 0.00, 0.00, NULL, NULL, 'Admission fee', '24'),
-(8, 32, 0, 'Addmission', 0.00, 2000.00, 0.00, 0.00, 0.00, NULL, NULL, 'Admission fee', '24'),
-(9, 33, 0, 'Addmission', 0.00, 2000.00, 0.00, 0.00, 2000.00, NULL, NULL, 'Admission fee', '24');
+INSERT INTO `fess` (`id`, `student_id`, `feehead_id`, `fees_month`, `tusion_fee`, `monthly_discount`, `fee_afterdiscount`, `net_fee`, `common_fee`, `extra_discount`, `due`, `payment`, `summary`, `created_at`, `updated_at`, `fee_details`, `year`) VALUES
+(15, 38, 0, 'Addmission', 0.00, '0', '0', '2000', 2000.00, 0.00, 0.00, 0.00, NULL, NULL, NULL, 'Admission fee', '2024'),
+(16, 38, 0, 'January-2024', 1000.00, '100', '900', '2900', 0.00, 0.00, 0.00, 2900.00, NULL, '2024-11-07 18:00:00', NULL, 'january tusion fee', '2024'),
+(17, 38, 0, 'February-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 900.00, NULL, '2024-11-07 18:00:00', NULL, 'february tusion fee', '2024'),
+(18, 38, 0, 'March-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 0.00, NULL, '2024-11-07 18:00:00', NULL, 'march tusion fee', '2024'),
+(19, 38, 0, 'April-2024', 1000.00, '100', '900', '1800', 0.00, 0.00, 900.00, 1800.00, NULL, '2024-11-07 18:00:00', NULL, 'april tusion fee', '2024'),
+(20, 38, 0, 'May-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 900.00, '0', '2024-11-07 18:00:00', NULL, 'may tusion fee', '2024'),
+(21, 38, 0, 'June-2024', 1000.00, '100', '900', '900', 0.00, 200.00, 0.00, 900.00, '0', '2024-11-07 18:00:00', NULL, 'june tusion fee', '2024');
 
 -- --------------------------------------------------------
 
@@ -288,7 +289,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2024_10_16_143026_create_expenses_table', 15),
 (21, '2024_10_30_041511_create_student_dues_table', 16),
 (22, '2024_10_30_081149_add_columns_fess', 17),
-(23, '2024_10_31_041652_add_column_fess', 18);
+(23, '2024_10_31_041652_add_column_fess', 18),
+(24, '2024_11_05_151100_add_coloumns_fees', 19),
+(25, '2024_11_08_143821_add_column_fess_table', 20),
+(26, '2024_11_11_155833_add_columns_users_table', 21),
+(27, '2024_11_11_172009_change_users_table', 22),
+(28, '2024_11_11_172730_remove_unique_from_email_on_users_table', 23),
+(29, '2024_11_18_144046_create_smslogs_table', 24);
 
 -- --------------------------------------------------------
 
@@ -344,7 +351,8 @@ CREATE TABLE `sections` (
 
 INSERT INTO `sections` (`id`, `course_id`, `section_name`, `schedule_day`, `schedule_time`, `status`, `created_at`, `updated_at`) VALUES
 (2, 1, 'boys-1', 'sat, sun, mon', '9 Am', '1', '2024-09-09 22:50:10', '2024-09-09 22:50:10'),
-(5, 2, 'boys-2', 'sat, sun, mon', '3 pm', '1', '2024-09-09 23:28:31', '2024-09-10 00:19:54');
+(5, 2, 'boys-2', 'sat, sun, mon', '3 pm', '1', '2024-09-09 23:28:31', '2024-09-10 00:19:54'),
+(6, 1, 'girls -1', 'sat, sun, mon', '3 pm', '1', '2024-11-13 08:45:23', '2024-11-13 08:45:23');
 
 -- --------------------------------------------------------
 
@@ -370,6 +378,28 @@ CREATE TABLE `sms` (
 
 INSERT INTO `sms` (`id`, `sms_key`, `sms_url`, `helpline`, `sender_id`, `footer_text`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'oLyAySR9ZjAp2fNzbZMI', 'http://bulksmsbd.net/api/smsapi', '57547272', '8809617620375', '\"Powered by Bouer Doya IT\"', '1', NULL, '2024-09-28 09:25:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `smslogs`
+--
+
+CREATE TABLE `smslogs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `message` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `recipient` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `smslogs`
+--
+
+INSERT INTO `smslogs` (`id`, `message`, `recipient`, `created_at`, `updated_at`) VALUES
+(1, 'gfdkgjdfslgjkldfs', '01749436376', '2024-11-18 09:13:13', '2024-11-18 09:13:13'),
+(4, 'no data get from server', '01749436376', '2024-11-18 21:15:49', '2024-11-18 21:15:49');
 
 -- --------------------------------------------------------
 
@@ -442,11 +472,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `course_id`, `section_id`, `batch_id`, `student_id`, `tusion_fees`, `discount`, `note`, `institute_name`, `status`, `photo`, `student_name`, `date_of_birth`, `gender`, `religion`, `sms_mobile`, `father_name`, `mother_name`, `guardian_mobile`, `address`, `sms`, `admission_date`, `created_at`, `updated_at`) VALUES
-(9, 1, 2, 1, '00001', 1000.00, NULL, NULL, 'C S B Secondary School', '1', 'assets/students/67092c874690a.jpg', 'Rakib Khan', '2024-09-28', 'Male', 'Muslim', '01749436376', 'Rafiq Khan', 'Parul Begum', '0124587', 'lorem ipsum', '1', NULL, '2024-09-28 09:12:47', '2024-10-14 00:28:22'),
-(30, 2, 5, 3, '00002', 1000.00, '250', NULL, 'C S B Secondary School', '1', 'assets/students/6721c57bb876b.png', 'Sumon', '2024-10-30', 'Female', 'Muslim', '01762906608', 'lorem ipsum', 'lorem ipsum', '01245', 'dsfsdafsdfhgfsdfsadfsdfhg', '0', '30-10-24', '2024-10-29 23:34:51', '2024-11-02 20:53:33'),
-(31, 1, 2, 1, '00003', 1000.00, '100', NULL, NULL, '1', 'assets/students/6723b4d735368.png', 'Rahim', '2024-10-31', 'Male', 'Muslim', '01612779446', 'lorem ipsum', 'lorem ipsum', '01245', NULL, '0', '31-10-24', '2024-10-31 10:48:27', '2024-10-31 10:48:27'),
-(32, 2, 5, 3, '00004', 1000.00, '100', NULL, NULL, '1', 'assets/students/6723b63d4c6f8.png', 'Karim', '2024-10-31', 'Male', 'Muslim', '01749436376', 'lorem ipsum', 'lorem ipsum', '32154687', NULL, '0', '31-10-24', '2024-10-31 10:54:21', '2024-10-31 10:54:21'),
-(33, 2, 5, 3, '00005', 1000.00, '100', NULL, NULL, '1', 'assets/students/6723b88d2ca60.png', 'palash', '2024-10-31', 'Male', 'Muslim', '01749436376', 'lorem ipsum', 'lorem ipsum', '32154687', NULL, '0', '31-10-24', '2024-10-31 11:04:13', '2024-10-31 11:04:13');
+(38, 1, 2, 1, '00001', 1000.00, '100', NULL, NULL, '1', 'assets/students/672d8c81d8f93.png', 'Rahim', '2024-11-08', 'Male', 'Muslim', '01749436376', 'lorem ipsum', 'lorem ipsum', '32154687', NULL, '0', '08-11-24', '2024-11-07 21:58:58', '2024-11-20 07:59:03');
 
 -- --------------------------------------------------------
 
@@ -467,10 +493,7 @@ CREATE TABLE `student_dues` (
 --
 
 INSERT INTO `student_dues` (`id`, `student_id`, `due_amount`, `created_at`, `updated_at`) VALUES
-(5, 30, 1000.00, '2024-10-29 23:34:51', '2024-10-29 23:34:51'),
-(6, 31, 2000.00, '2024-10-31 10:48:27', '2024-10-31 10:48:27'),
-(7, 32, 0.00, '2024-10-31 10:54:21', '2024-10-31 10:54:21'),
-(8, 33, 0.00, '2024-10-31 11:04:13', '2024-10-31 11:04:13');
+(13, 38, 200.00, '2024-11-07 21:58:58', '2024-11-07 21:58:58');
 
 -- --------------------------------------------------------
 
@@ -480,14 +503,24 @@ INSERT INTO `student_dues` (`id`, `student_id`, `due_amount`, `created_at`, `upd
 
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `photo`, `phone`, `user_name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Rakib khan', 'assets/admin/6732d335560be.jpg', '01749436376', 'rakibkhan', 'info@gmail.com', NULL, '$2y$12$HyO8C18MMPZy/MnbJussKuqmgVg4d4RRLKqdEctQCkfoLkyMm9x7a', NULL, '2024-11-11 09:02:10', '2024-11-11 22:01:57');
 
 --
 -- Indexes for dumped tables
@@ -584,6 +617,12 @@ ALTER TABLE `sms`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `smslogs`
+--
+ALTER TABLE `smslogs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `smstemplates`
 --
 ALTER TABLE `smstemplates`
@@ -612,8 +651,7 @@ ALTER TABLE `student_dues`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -665,19 +703,19 @@ ALTER TABLE `feeheads`
 -- AUTO_INCREMENT for table `fees_months`
 --
 ALTER TABLE `fees_months`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `fess`
 --
 ALTER TABLE `fess`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -689,13 +727,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sms`
 --
 ALTER TABLE `sms`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `smslogs`
+--
+ALTER TABLE `smslogs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `smstemplates`
@@ -713,19 +757,19 @@ ALTER TABLE `studentmanages`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `student_dues`
 --
 ALTER TABLE `student_dues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

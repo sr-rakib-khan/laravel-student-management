@@ -247,4 +247,12 @@ class AddPaymentController extends Controller
     {
         return view('payment.search_pay');
     }
+
+
+    //get batches for search all payment
+    function GetbatchesforAllpay($courseId)
+    {
+        $batches = Batch::where('course_id', $courseId)->get();
+        return response()->json($batches);
+    }
 }
