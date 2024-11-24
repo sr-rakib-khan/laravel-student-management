@@ -1,28 +1,20 @@
 @extends('layouts.admin')
 @section('page-content')
-    @php
-        $course = DB::table('courses')->where('id', session('course_id'))->first();
-        $batch = DB::table('batches')->where('id', session('batch_id'))->first();
-        $students = DB::table('students')
-            ->where('course_id', session('course_id'))
-            ->where('batch_id', session('batch_id'))
-            ->get();
-    @endphp
     <div class="page-wrapper">
         <div class="content">
             <div class="row mb-3">
-                <div class="col-md-3">
-                    <h4>Batch Add Payments</h4>
+                <div class="col-md-4">
+                    <h4>Add Payment (All Due List)</h4>
                 </div>
-                <div class="col-md-5"></div>
+                <div class="col-md-4"></div>
                 <div class="col-md-2 text-end">
                     <a href="{{ route('student.fee') }}" class="btn btn-primary btn-sm">Fee</a>
                 </div>
                 <div class="col-md-2 mr-1">
-                    <a href="{{ route('coursewise.student', $course->id) }}" class="btn btn-success btn-sm">Students</a>
+                    <a href="{{ route('student.list') }}" class="btn btn-success btn-sm">Students</a>
                 </div>
             </div>
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-body bg-success">
                     <div class="row">
                         <div class="col-12 col-lg-3 text-white"><strong>Course: </strong>{{ $course->course_name }} |
@@ -39,10 +31,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="card">
                 <div class="card-body">
-                    <div class="table-top">
+                    {{-- <div class="table-top">
                         <div class="search-set">
                             <div class="search-input">
                                 <a class="btn btn-searchset"><img src="{{ asset('assets/img/icons/search-white.svg') }}"
@@ -64,7 +56,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="table-responsive">
                         <table class="table datanew">
                             <thead>
@@ -82,14 +74,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($students as $item)
+                                @foreach ($studentsWithDue as $item)
                                     @php
                                         $fee_head = DB::table('feeheads')->where('status', 1)->get();
 
                                         $student_due = DB::table('student_dues')
                                             ->where('student_id', $item->id)
                                             ->first();
+
                                         $sms = DB::table('sms')->where('status', 1)->first();
+
                                     @endphp
                                     <tr>
                                         <form action="{{ route('collect.fess') }}" method="post">
@@ -188,35 +182,46 @@
                         </table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 mb-3">
+                        <a href="javascript:void(0)" data-url="{{ route('alldues.group.smsreminder') }}"
+                            class="btn btn-sm btn-danger send-alldue-reminder">
+                            Send All Students Due Reminder
+                        </a>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+
     <script type="text/javascript">
-        $(document).on('click', '.send-sms', function(e) {
-            e.preventDefault();
+        $(document).ready(function() {
+            $('.send-alldue-reminder').on('click', function(event) {
+                event.preventDefault(); // prevent page reload
 
-            let url = $(this).data('url');
+                let url = $(this).data('url'); // collect url or route
 
-            $.ajax({
-                url: url,
-                method: 'GET',
-                beforeSend: function() {
-                    alert('send reminder');
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success(response.message, 'Success');
-                        // toastr.success(response);
-                    } else {
-                        toastr.error(response.message, 'Error');
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}" // CSRF token
+                    },
+                    success: function(response) {
+                        toastr.success(response); // success message
+                    },
+                    error: function(xhr) {
+                        toastr.error(xhr.responseJSON.message ||
+                            'Failed to send SMS.'); // error message
                     }
-                },
-                error: function() {
-                    alert('Ajax Error: SMS পাঠানো সম্ভব হয়নি।');
-                }
+                });
             });
         });
     </script>

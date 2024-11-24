@@ -8,42 +8,35 @@
                     <h6>Manage sms settings</h6>
                 </div>
                 <div class="page-btn">
-                    <a href="" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img"
-                            class="me-1" />Add New Product</a>
+                    <a href="{{ route('sms.create') }}" class="btn btn-added">Send Sms</a>
                 </div>
             </div>
+            @php
 
+            @endphp
             <div class="card">
                 <div class="row m-3">
-                    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-                        <div class="dash-count">
-                            <div class="dash-counts">
-                                <h4>100</h4>
-                                <h5>Customers</h5>
+                    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+                        <div style="width: 250px; height:100px" class="bg-success rounded border">
+                            <div class="m-3">
+                                <h4 class="text-white text-center">SMS Rate</h4>
+                                <p class="text-white text-center">1 SMS / 0.35</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-                        <div class="dash-count">
-                            <div class="dash-counts">
-                                <h4>100</h4>
-                                <h5>Customers</h5>
+                    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+                        <div style="width: 250px; height:100px" class="bg-success rounded border">
+                            <div class="m-3">
+                                <h4 class="text-white text-center">Sent This Month</h4>
+                                <p class="text-white text-center">{{ $smsCount }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-                        <div class="dash-count">
-                            <div class="dash-counts">
-                                <h4>100</h4>
-                                <h5>Customers</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12 d-flex">
-                        <div class="dash-count">
-                            <div class="dash-counts">
-                                <h4>100</h4>
-                                <h5>Customers</h5>
+                    <div class="col-lg-4 col-sm-6 col-12 d-flex">
+                        <div style="width: 250px; height:100px" class="bg-success rounded border">
+                            <div class="m-3">
+                                <h4 class="text-white text-center">Blance</h4>
+                                <p class="text-white text-center">{{ $blance['balance'] }} tk</p>
                             </div>
                         </div>
                     </div>

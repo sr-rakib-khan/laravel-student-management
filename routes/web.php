@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\AddPaymentController;
 use App\Http\Controllers\Admin\GlobalController; //global controller
 use App\Http\Controllers\Admin\AccountController;
+use App\Http\Controllers\Admin\DuereminderController;
 use App\Http\Controllers\Admin\FinancialReportController;
 
 
@@ -152,6 +153,8 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/sms-send', [SmsController::class, 'SmsSend'])->name('sms.send');
 
+        Route::get('/sms-log-delete/{id}', [SmsController::class, 'Deletesmslog'])->name('delete.smslog');
+
         Route::get('/sms-template', [SmsController::class, 'SmsTemplate'])->name('sms.template');
 
         Route::post('/sms-template-add', [SmsController::class, 'TemplateStore'])->name('template.store');
@@ -163,7 +166,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/sms-template-delete/{id}', [SmsController::class, 'TemplateDelete'])->name('template.delete');
 
         Route::get('/sms-log', [SmsController::class, 'SmsLog'])->name('sms.log');
+
+        //send group sms
+        Route::post('/send-group-sms', [SmsController::class, 'SendgroupSms'])->name('sendgroup.sms');
+
+        //send group sms
+        Route::post('/send-group-sms', [SmsController::class, 'SendgroupSms'])->name('sendgroup.sms');
+
+        //send group smsreminder for course wise dues students
+        Route::post('/send-group-smsreminder/course-dues-students/{course_id}', [SmsController::class, 'SendremindCWDStd'])->name('coursewise.group.smsreminder');
+
+        //send group smsreminder for all dues students
+        Route::post('/send-group-smsreminder/all-dues-students', [SmsController::class, 'AllDuesStudents'])->name('alldues.group.smsreminder');
     });
+
+
 
     //Student management route
     Route::prefix('admin/student')->group(function () {
@@ -175,6 +192,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/add', [StudentmanageController::class, 'StoreStudent'])->name('store.student');
 
         Route::get('/student-list', [StudentmanageController::class, 'StudentList'])->name('student.list');
+
+        Route::get('/stdmanage-list', [StudentmanageController::class, 'StdmanageList'])->name('stdmanage_list');
+
 
         Route::post('/search-student', [StudentmanageController::class, 'SearchStudent'])->name('search.student');
 
@@ -212,6 +232,8 @@ Route::middleware('auth')->group(function () {
 
         //promotion student for next class
         Route::post('/promotion/student/next-class', [StudentmanageController::class, 'PromotionStudent'])->name('promotion.student');
+
+        Route::get('/course/student/{course_id}', [StudentmanageController::class, 'CoursewideStudent'])->name('coursewise.student');
     });
 
 
@@ -255,7 +277,7 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    //paymet route
+    //payment route
     Route::prefix('admin/payment')->group(function () {
 
         Route::get('/create', [AddPaymentController::class, 'CreatePayment'])->name('add.payment');
@@ -268,11 +290,22 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/collect', [AddPaymentController::class, 'FessCollect'])->name('collect.fess');
 
-        Route::get('/edit/{id}', [ExpenseController::class, 'ExpenseEdit'])->name('expense.edit');
 
-        Route::post('/update', [ExpenseController::class, 'ExpenseUpdate'])->name('update.expense');
+        Route::get('/no-dues-list/{course_id}/{batch_id}', [AddPaymentController::class, 'NoduesStudents'])->name('nodues.students');
 
-        Route::get('/delete/{id}', [ExpenseController::class, 'ExpenseDelete'])->name('expense.delete');
+        Route::get('/dues-list/{course_id}/{batch_id}', [AddPaymentController::class, 'DuesStudents'])->name('dues.students');
+
+        Route::get('/dues-list', [AddPaymentController::class, 'AlldueAddPayment'])->name('all.due.addpayment');
+
+        //pay search
+        Route::get('/search-pay-list', [AddPaymentController::class, 'Paysearch'])->name('search.pay');
+    });
+
+
+    //due reminder route
+    Route::prefix('admin/student')->group(function () {
+
+        Route::get('/due-reminder/{id}', [DuereminderController::class, 'SingleReminder'])->name('due.reminder');
     });
 
 

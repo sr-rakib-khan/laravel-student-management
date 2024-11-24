@@ -9,18 +9,6 @@
                     </a>
                 </li>
                 <li class="submenu">
-                    <a href="javascript:void(0);"><i class="fas fa-envelope"></i><span>
-                            SMS</span>
-                        <span class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="{{ route('sms.log') }}">Sms Log</a></li>
-                        <li><a href="{{ route('sms.create') }}">Send Sms</a></li>
-                        <li><a href="{{ route('sms.template') }}">SMS Template</a></li>
-                        <li><a href="{{ route('sms.setting') }}">SMS Settings</a></li>
-                    </ul>
-                </li>
-
-                <li class="submenu">
                     <a href="javascript:void(0);"><i class="fas fa-book-open"></i><span>
                             Bacth Manager</span>
                         <span class="menu-arrow"></span></a>
@@ -28,15 +16,6 @@
                         <li><a href="{{ route('all.batch') }}">Batch Manager (Students/Fee/Payment)</a></li>
                         <li><a href="{{ route('running.batch') }}">Running Batch</a></li>
                         <li><a href="{{ route('student.fee') }}">Student - Fee Head</a></li>
-                    </ul>
-                </li>
-                <li class="submenu">
-                    <a href="javascript:void(0);"><i class="fa fa-clock"></i><span>
-                            Course/ Section/ Shift</span>
-                        <span class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="{{ route('course.section.index') }}">Course Section</a></li>
-                        <li><a href="{{ route('all.course') }}">All Course</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -51,13 +30,22 @@
                     </ul>
                 </li>
                 <li class="submenu">
+                    <a href="javascript:void(0);"><i class="fa fa-clock"></i><span>
+                            Course/ Section/ Shift</span>
+                        <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{{ route('course.section.index') }}">Course Section</a></li>
+                        <li><a href="{{ route('all.course') }}">All Course</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
                     <a href="javascript:void(0);"><i class="fas fa-calculator"></i><span>
                             Accounts</span>
                         <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="{{ route('add.payment') }}">Add Payment</a></li>
                         <li><a href="{{ route('create.fee') }}">Create Fees</a></li>
-                        <li><a href="">All Payment</a></li>
+                        <li><a href="{{ route('search.pay') }}">All Payment</a></li>
                         <li><a href="{{ route('expense.list') }}">Expenses</a></li>
                         <li><a href="{{ route('expensecategory.list') }}">Expenses Category</a></li>
                         <li><a href="">Summary</a></li>
@@ -65,12 +53,14 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/settings.svg') }}"
-                            alt="img" /><span>
-                            Settings</span>
+                    <a href="javascript:void(0);"><i class="fas fa-envelope"></i><span>
+                            SMS</span>
                         <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="generalsettings.html">General Settings</a></li>
+                        <li><a href="{{ route('sms.log') }}">Sms Log</a></li>
+                        <li><a href="{{ route('sms.create') }}">Send Sms</a></li>
+                        <li><a href="{{ route('sms.template') }}">SMS Template</a></li>
+                        <li><a href="{{ route('sms.setting') }}">SMS Settings</a></li>
                     </ul>
                 </li>
             </ul>

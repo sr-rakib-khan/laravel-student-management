@@ -51,7 +51,9 @@
                                 <tr>
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $item->student_id }}</td>
-                                    <td>{{ $item->student_name }}</td>
+                                    <td><a
+                                            href="{{ route('view.student-details', $item->id) }}">{{ $item->student_name }}</a>
+                                    </td>
                                     @if ($item->photo)
                                         <td><img width="40px" src="{{ asset($item->photo) }}" alt=""></td>
                                     @else

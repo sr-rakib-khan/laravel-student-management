@@ -53,22 +53,23 @@
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-md-2"><a class="btn btn-secondary btn-sm"
-                                href="{{ route('batch.studentlist', $batch->id) }}">All ({{ $batch_std_count }})</a></div>
-                        @foreach ($sections as $item)
-                            @php
-                                $sec_std_count = DB::table('students')
-                                    ->where('section_id', $item->id)
-                                    ->count();
-                            @endphp
-                            <div class="col-md-2"><a title="{{ $item->schedule_day }} - {{ $item->schedule_time }}"
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <a class="btn btn-secondary btn-sm" href="{{ route('batch.studentlist', $batch->id) }}">
+                                All ({{ $batch_std_count }})
+                            </a>
+                            @foreach ($sections as $item)
+                                @php
+                                    $sec_std_count = DB::table('students')
+                                        ->where('section_id', $item->id)
+                                        ->count();
+                                @endphp
+                                <a title="{{ $item->schedule_day }} - {{ $item->schedule_time }}"
                                     class="btn btn-success btn-sm"
-                                    href="{{ route('section.students', ['id' => $item->id, 'batch_id' => $batch->id]) }}">{{ $item->section_name }}
-                                    ({{ $sec_std_count }})
+                                    href="{{ route('section.students', ['id' => $item->id, 'batch_id' => $batch->id]) }}">
+                                    {{ $item->section_name }} ({{ $sec_std_count }})
                                 </a>
-                            </div>
-                        @endforeach
-
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

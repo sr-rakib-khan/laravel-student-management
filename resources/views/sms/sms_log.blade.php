@@ -4,7 +4,7 @@
         <div class="content">
             <div class="page-header">
                 <div class="page-title">
-                    <h4>Manage SMS Template</h4>
+                    <h4>Manage SMS Logs</h4>
                 </div>
             </div>
 
@@ -39,19 +39,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a class="me-3" href="">
-                                        <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" />
-                                    </a>
-                                    <a class="confirm-text delete" href="">
-                                        <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" />
-                                    </a>
-                                </td>
-                            </tr>
+                            @foreach ($smslog as $item => $value)
+                                <tr>
+                                    <td>{{ ++$item }}</td>
+                                    <td>{{ $value->message }}</td>
+                                    <td>{{ $value->recipient }}</td>
+                                    <td>
+                                        <a class="confirm-text delete" href="{{ route('delete.smslog', $value->id) }}">
+                                            <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -65,24 +64,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Template</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Send Sms</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('template.store') }}" method="post">
+                <form action="{{ route('sms.send') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="col-md-12 mb-3">
-                            <label for="validationCustom01">Title</label>
-                            <input type="text" name="title" class="form-control" required />
+                            <label for="validationCustom01">Sms To</label>
+                            <input type="text" name="to" class="form-control" required />
                         </div>
                         <div class="col-md-12 col-lg-12 mb-3">
                             <label for="message">Message</label>
-                            <textarea name="message" cols="60" rows="5"></textarea>
+                            <textarea name="sms" cols="60" rows="5"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
                     </div>
                 </form>
             </div>

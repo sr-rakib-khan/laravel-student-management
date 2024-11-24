@@ -3,10 +3,7 @@
     @php
         $course = DB::table('courses')->where('id', session('course_id'))->first();
         $batch = DB::table('batches')->where('id', session('batch_id'))->first();
-        $students = DB::table('students')
-            ->where('course_id', session('course_id'))
-            ->where('batch_id', session('batch_id'))
-            ->get();
+
     @endphp
     <div class="page-wrapper">
         <div class="content">
@@ -89,7 +86,9 @@
                                         $student_due = DB::table('student_dues')
                                             ->where('student_id', $item->id)
                                             ->first();
+
                                         $sms = DB::table('sms')->where('status', 1)->first();
+
                                     @endphp
                                     <tr>
                                         <form action="{{ route('collect.fess') }}" method="post">
@@ -188,35 +187,45 @@
                         </table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 mb-3">
+                        <a href="javascript:void(0)" data-url="{{ route('coursewise.group.smsreminder', $course->id) }}"
+                            class="btn btn-sm btn-danger send-due-reminder">
+                            Send All Students Due Reminder
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+
     <script type="text/javascript">
-        $(document).on('click', '.send-sms', function(e) {
-            e.preventDefault();
+        $(document).ready(function() {
+            $('.send-due-reminder').on('click', function(event) {
+                event.preventDefault(); // prevent page reload
 
-            let url = $(this).data('url');
+                let url = $(this).data('url'); // collect url or route
 
-            $.ajax({
-                url: url,
-                method: 'GET',
-                beforeSend: function() {
-                    alert('send reminder');
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success(response.message, 'Success');
-                        // toastr.success(response);
-                    } else {
-                        toastr.error(response.message, 'Error');
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}" // CSRF token
+                    },
+                    success: function(response) {
+                        toastr.success(response); // success message
+                    },
+                    error: function(xhr) {
+                        toastr.error(xhr.responseJSON.message ||
+                            'Failed to send SMS.'); // error message
                     }
-                },
-                error: function() {
-                    alert('Ajax Error: SMS পাঠানো সম্ভব হয়নি।');
-                }
+                });
             });
         });
     </script>

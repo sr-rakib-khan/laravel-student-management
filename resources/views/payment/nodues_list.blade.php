@@ -3,10 +3,7 @@
     @php
         $course = DB::table('courses')->where('id', session('course_id'))->first();
         $batch = DB::table('batches')->where('id', session('batch_id'))->first();
-        $students = DB::table('students')
-            ->where('course_id', session('course_id'))
-            ->where('batch_id', session('batch_id'))
-            ->get();
+
     @endphp
     <div class="page-wrapper">
         <div class="content">
@@ -89,7 +86,6 @@
                                         $student_due = DB::table('student_dues')
                                             ->where('student_id', $item->id)
                                             ->first();
-                                        $sms = DB::table('sms')->where('status', 1)->first();
                                     @endphp
                                     <tr>
                                         <form action="{{ route('collect.fess') }}" method="post">
@@ -108,15 +104,8 @@
                                                     <span class="text-white">No Dues: 0</span>
                                                 </td>
                                             @else
-                                                <td class="text-white bg-danger text-center">
+                                                <td class="text-white bg-danger">
                                                     Dues: {{ $student_due->due_amount }}
-                                                    <br>
-                                                    <a href="javascript:void(0);"
-                                                        data-url="{{ route('due.reminder', $item->id) }}"
-                                                        title="{{ $item->student_name }} your dues {{ $student_due->due_amount }} tk. Kindly clear your due by time. {{ $sms->footer_text }}"
-                                                        class="btn btn-white send-sms">
-                                                        <i class="fa fa-envelope" style="margin-right: 10px;"></i>Reminder
-                                                    </a>
                                                 </td>
                                             @endif
 
@@ -191,33 +180,4 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <script type="text/javascript">
-        $(document).on('click', '.send-sms', function(e) {
-            e.preventDefault();
-
-            let url = $(this).data('url');
-
-            $.ajax({
-                url: url,
-                method: 'GET',
-                beforeSend: function() {
-                    alert('send reminder');
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success(response.message, 'Success');
-                        // toastr.success(response);
-                    } else {
-                        toastr.error(response.message, 'Error');
-                    }
-                },
-                error: function() {
-                    alert('Ajax Error: SMS পাঠানো সম্ভব হয়নি।');
-                }
-            });
-        });
-    </script>
 @endsection

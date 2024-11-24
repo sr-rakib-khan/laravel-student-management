@@ -175,11 +175,21 @@ class StudentmanageController extends Controller
     }
 
 
+    //student search for manage
     function SearchStudent(Request $request)
     {
-        $course_id = $request->course_id;
+        session([
+            'stdmanage_course_id' => $request->course_id,
+            'stdmanage_batch_id' => $request->session,
+        ]);
 
-        return view('student.student_list', compact('course_id'));
+        return redirect()->route('stdmanage_list');
+    }
+
+    //student list for manage
+    function StdmanageList(Request $request)
+    {
+        return view('student.stdmanage_list');
     }
 
     function ViewSutdentDetails($id)
@@ -381,5 +391,13 @@ class StudentmanageController extends Controller
             $notification = array('message' => 'Student Promotion Successfully', 'alert-type' => 'success');
             return redirect()->back()->with($notification);
         }
+    }
+
+    //course wise students
+
+    function CoursewideStudent($course_id)
+    {
+        $sutdents = Student::where('course_id', $course_id)->get();
+        return view('student.course_wise_student', compact('sutdents'));
     }
 }

@@ -1,76 +1,10 @@
 @extends('layouts.admin')
 @section('page-content')
-    @php
-        $batch = DB::table('batches')->where('id', $batch_id)->first();
-        $course = DB::table('courses')
-            ->where('id', $batch->course_id)
-            ->first();
-
-        $sections = DB::table('sections')
-            ->where('course_id', $course->id)
-            ->get();
-
-        $batch_std_count = DB::table('students')
-            ->where('batch_id', $batch->id)
-            ->count();
-    @endphp
-
     <div class="page-wrapper">
         <div class="content">
             <div class="page-header">
                 <div class="page-title">
-                    <h2>Batch Active Students</h2>
-                </div>
-                <div class="page-title">
-                    <form action="{{ route('search.students') }}" method="post">
-                        <a type="button" class="btn btn-sm btn-success"
-                            href="{{ route('batch.active.student', $batch_id) }}">Active
-                            Student</a>
-                        <a type="button" class="btn btn-sm btn-danger"
-                            href="{{ route('batch.inactive.student', $batch_id) }}">Inactive Student</a>
-                        <a type="button" class="btn btn-sm btn-info" href="{{ route('chose.course') }}">Add Student</a>
-                        <a type="button" class="btn btn-sm btn-success" href="{{ route('student.fee') }}">Fee</a>
-                        @csrf
-                        <input type="hidden" name="course_id" value="{{ $course->id }}">
-                        <input type="hidden" name="batch_id" value="{{ $batch->id }}">
-                        <button type="submit" class="btn btn-sm btn-primary">Add Payment</button>
-                    </form>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="row border-bottom">
-                        <div class="col-md-3"><strong>Course: </strong>{{ $course->course_name }}</div>
-                        <div class="col-md-3"><strong>Batch:</strong>{{ $batch->batch_name }}</div>
-                        <div class="col-md-3"><strong>Monthly fee: </strong>{{ $batch->monthly_fee }}</div>
-                        <div class="col-md-3"><strong>Status: </strong>
-                            @if ($batch->status == 1)
-                                <span class="text-success"> Running</span>
-                            @else
-                                <span class="text-success"> Inactive</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="d-flex flex-wrap align-items-center gap-2">
-                            <a class="btn btn-secondary btn-sm" href="{{ route('batch.studentlist', $batch->id) }}">
-                                All ({{ $batch_std_count }})
-                            </a>
-                            @foreach ($sections as $item)
-                                @php
-                                    $sec_std_count = DB::table('students')
-                                        ->where('section_id', $item->id)
-                                        ->count();
-                                @endphp
-                                <a title="{{ $item->schedule_day }} - {{ $item->schedule_time }}"
-                                    class="btn btn-success btn-sm"
-                                    href="{{ route('section.students', ['id' => $item->id, 'batch_id' => $batch->id]) }}">
-                                    {{ $item->section_name }} ({{ $sec_std_count }})
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
+                    <h2>Students</h2>
                 </div>
             </div>
             <div class="card">
@@ -87,8 +21,6 @@
 
                 <div id="stddata" class="table-responsive">
                     <table class="table datanew">
-                        @php
-                        @endphp
                         <thead>
                             <tr>
                                 <th>SL</th>
@@ -104,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($batch_active_students as $key => $item)
+                            @foreach ($sutdents as $key => $item)
                                 @php
                                     $batch = DB::table('batches')
                                         ->where('id', $item->batch_id)
@@ -126,9 +58,8 @@
                                         <td><img width="40px" src="{{ asset('assets/students/images (1).jfif') }}"
                                                 alt=""></td>
                                     @endif
-                                    <td>{{ $section->section_name }}({{ $section->schedule_day }} -
-                                        {{ $section->schedule_time }})
-                                    </td>
+                                    <td>{{ $section->section_name }} ({{ $section->schedule_day }} -
+                                        {{ $section->schedule_time }}) </td>
                                     <td>{{ $batch->batch_name }}</td>
                                     <td>{{ $item->sms_mobile }}</td>
                                     @if ($item->status == 1)
@@ -160,4 +91,44 @@
             </div>
         </div>
     </div>
+
+
+    {{-- jquery ajax cdn  --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- active student ajax code
+    <script type="text/javascript">
+        $(document).on('click', '.active', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+
+            $.ajax({
+                url: url,
+                type: 'get',
+                success: function(response) {
+                    toastr.success(response);
+                    $('.status').load(location.href + ' .status');
+                }
+            });
+        });
+    </script>
+
+    {{-- inactive student ajax code  --}}
+
+    {{-- <script type="text/javascript">
+        $(document).on('click', '.inactive', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+
+            $.ajax({
+                url: url,
+                type: 'get',
+                success: function(response) {
+                    toastr.success(response);
+                    $('.status').load(location.href + ' .status');
+                }
+            });
+        });
+    </script> --}}
 @endsection

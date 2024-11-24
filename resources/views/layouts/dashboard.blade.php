@@ -12,13 +12,6 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-3 col-sm-6 col-12 mt-5">
-                            {{-- <a href="{{ route('all.batch') }}">
-                                <div class="dash-widget bg-primary align-center">
-                                    <div class="dash-widgetcontent">
-                                        <h5 class="text-white">Batch Manager</h5>
-                                    </div>
-                                </div>
-                            </a> --}}
 
                             <div class="page-btn">
                                 <a style="width: 250px" href="{{ route('all.batch') }}" class="btn btn-primary p-3">Batch
@@ -47,6 +40,11 @@
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12 mt-5">
                             <div class="page-btn">
+                                <a style="width: 250px" href="{{route('all.due.addpayment')}}" class="btn btn-primary p-3">All Due Add Payment</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 col-12 mt-5">
+                            <div class="page-btn">
                                 <a style="width: 250px" href="{{ route('add.payment') }}" class="btn btn-primary p-3">Add
                                     Payment</a>
                             </div>
@@ -55,11 +53,6 @@
                             <div class="page-btn">
                                 <a style="width: 250px" href="{{ route('expense.list') }}"
                                     class="btn btn-primary p-3">Expenses</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 col-12 mt-5">
-                            <div class="page-btn">
-                                <a style="width: 250px" href="" class="btn btn-primary p-3">Expenses</a>
                             </div>
                         </div>
                     </div>

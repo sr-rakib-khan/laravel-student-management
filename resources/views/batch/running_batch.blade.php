@@ -50,14 +50,19 @@
                                     <td>{{ $item->session }}</td>
                                     <td>{{ $item->monthly_fee }}.00</td>
                                     <td>
-                                        <a type="button" class="btn btn-sm btn-primary text-white"
-                                            href="{{ route('batch.studentlist', $item->id) }}">Students({{ $student_count }})</a>
-                                        <a type="button" class="btn btn-success btn-sm text-white" href="">Add
-                                            Payment</a>
-                                        <a type="button" class="btn btn-sm btn-secondary text-white"
-                                            href="{{ route('batchfee.list', $item->id) }}">Batch Fee</a>
-                                        <a type="button" class="btn btn-info btn-sm text-white" href=""><i
-                                                class="fa-solid fa-print"></i> Account Summary</a>
+                                        <form action="{{ route('search.students') }}" method="post">
+                                            <a type="button" class="btn btn-sm btn-primary text-white"
+                                                href="{{ route('batch.studentlist', $item->id) }}">Students({{ $student_count }})</a>
+                                            @csrf
+                                            <input type="hidden" value="{{ $item->id }}" name="batch_id">
+                                            <input type="hidden" value="{{ $item->course_id }}" name="course_id">
+                                            <button type="submit" class="btn btn-success btn-sm text-white">Add
+                                                Payment</button>
+                                            <a type="button" class="btn btn-sm btn-secondary text-white"
+                                                href="{{ route('student.fee', $item->id) }}">Batch Fee</a>
+                                            <a type="button" class="btn btn-info btn-sm text-white" href=""><i
+                                                    class="fa-solid fa-print"></i> Account Summary</a>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
