@@ -9,6 +9,7 @@ use App\Models\Batch;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Sms;
 use App\Models\Student;
+use App\Models\Section;
 
 class AddPaymentController extends Controller
 {
@@ -250,9 +251,25 @@ class AddPaymentController extends Controller
 
 
     //get batches for search all payment
-    function GetbatchesforAllpay($courseId)
+    function getbatchsection($course_id)
     {
-        $batches = Batch::where('course_id', $courseId)->get();
-        return response()->json($batches);
+        $batches = Batch::where('course_id', $course_id)->get();
+        $sections = Section::where('course_id', $course_id)->get();
+        return response()->json([
+            'batches' => $batches,
+            'sections' => $sections,
+        ]);
+    }
+
+
+    //get payment list
+
+    function Getpaymentlist(Request $request)
+    {
+        $course_id = $request->course_id;
+        $batch_id = $request->batch_id;
+        $section_id = $request->section_id;
+
+        dd($request->start_date);
     }
 }

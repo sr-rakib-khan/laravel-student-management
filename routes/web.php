@@ -300,7 +300,11 @@ Route::middleware('auth')->group(function () {
         //pay search
         Route::get('/search-pay-list', [AddPaymentController::class, 'Paysearch'])->name('search.pay');
 
-        Route::get('/get-batches/{courseId}', [AddPaymentController::class, 'GetbatchesforAllpay']);
+        // get batch and section for show payment list 
+        Route::get('/get-batches-section/{course_id}', [AddPaymentController::class, 'getbatchsection'])->name('get.batch.section');
+
+        //get payment list route
+        Route::post('/get-batches-section', [AddPaymentController::class, 'Getpaymentlist'])->name('show.payment.list');
     });
 
 

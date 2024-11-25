@@ -19,7 +19,8 @@
         <div class="card">
             <div class="card">
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form action="{{ route('show.payment.list') }}" method="post">
+                        @csrf
                         <div class="row">
                             <div class="col-lg-2 col-sm-6 col-12">
                                 <div class="form-group">
@@ -35,20 +36,21 @@
                                 <div class="form-group">
                                     <select name="batch_id" id="batch" class="select">
                                         <option value="">Choose Batch</option>
+                                        <option value="">**first select course**</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <select class="select">
+                                    <select name="section_id" id="section" class="form-control">
                                         <option>Choose Section</option>
-                                        <option>Section</option>
+                                        <option>**first select course**</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <input class="form-control" type="date">
+                                    <input name="start_date" class="form-control" type="date">
                                 </div>
                             </div>
                             <div class="col-lg-1 col-sm-6 col-12">
@@ -56,7 +58,7 @@
                             </div>
                             <div class="col-lg-2 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <input class="form-control" type="date">
+                                    <input name="end_date" class="form-control" type="date">
                                 </div>
                             </div>
                             <div class="col-lg-1 col-sm-6 col-12">
@@ -134,35 +136,42 @@
         $(document).ready(function() {
             $('#course').on('change', function() {
                 var courseId = $(this).val();
-                var batchDropdown = $('#batch');
-                var message = $('#message');
-                batchDropdown.empty(); // Clear the batch dropdown
-                batchDropdown.append('<option value="">Choose Batch</option>'); // Default option
 
                 if (courseId) {
-                    // AJAX request
+                    var url = '{{ route('get.batch.section', ':courseId') }}'.replace(':courseId',
+                        courseId);
+
                     $.ajax({
-                        url: '/get-batches/' + courseId, // Route for fetching batches
+                        url: url,
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {
-                            if (data.length > 0) {
-                                $.each(data, function(key, value) {
-                                    batchDropdown.append('<option value="' + value.id +
-                                        '">' + value.batch_name + '</option>');
-                                });
-                                message.hide();
-                            } else {
-                                batchDropdown.append(
-                                    '<option value="">No batches found</option>');
-                            }
+                            // Batch Dropdown আপডেট করা
+                            $('#batch').empty();
+                            $('#batch').append('<option value="">Choose Batch</option>');
+                            $.each(data.batches, function(key, value) {
+                                $('#batch').append('<option value="' + value.id + '">' +
+                                    value.batch_name + '</option>');
+                            });
+
+                            // Section Dropdown আপডেট করা
+                            $('#section').empty();
+                            $('#section').append('<option value="">Choose Section</option>');
+                            $.each(data.sections, function(key, value) {
+                                $('#section').append('<option value="' + value.id +
+                                    '">' + value.section_name + '( ' + value
+                                    .schedule_day + ' || ' + value
+                                    .schedule_time + ')' +
+                                    '</option>');
+                            });
                         },
-                        error: function() {
-                            alert('Error fetching batch data.');
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
                         }
                     });
                 } else {
-                    message.show(); // Show message if no course is selected
+                    $('#batch').empty().append('<option value="">Choose Batch</option>');
+                    $('#section').empty().append('<option value="">Choose Section</option>');
                 }
             });
         });
