@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 24, 2024 at 02:58 PM
+-- Generation Time: Nov 28, 2024 at 01:01 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.21
 
@@ -234,21 +234,22 @@ CREATE TABLE `fess` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `fee_details` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `year` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `year` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fees_collect_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `fess`
 --
 
-INSERT INTO `fess` (`id`, `student_id`, `feehead_id`, `fees_month`, `tusion_fee`, `monthly_discount`, `fee_afterdiscount`, `net_fee`, `common_fee`, `extra_discount`, `due`, `payment`, `summary`, `created_at`, `updated_at`, `fee_details`, `year`) VALUES
-(15, 38, 0, 'Addmission', 0.00, '0', '0', '2000', 2000.00, 0.00, 0.00, 0.00, NULL, NULL, NULL, 'Admission fee', '2024'),
-(16, 38, 0, 'January-2024', 1000.00, '100', '900', '2900', 0.00, 0.00, 0.00, 2900.00, NULL, '2024-11-07 18:00:00', NULL, 'january tusion fee', '2024'),
-(17, 38, 0, 'February-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 900.00, NULL, '2024-11-07 18:00:00', NULL, 'february tusion fee', '2024'),
-(18, 38, 0, 'March-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 0.00, NULL, '2024-11-07 18:00:00', NULL, 'march tusion fee', '2024'),
-(19, 38, 0, 'April-2024', 1000.00, '100', '900', '1800', 0.00, 0.00, 900.00, 1800.00, NULL, '2024-11-07 18:00:00', NULL, 'april tusion fee', '2024'),
-(20, 38, 0, 'May-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 900.00, '0', '2024-11-07 18:00:00', NULL, 'may tusion fee', '2024'),
-(21, 38, 0, 'June-2024', 1000.00, '100', '900', '900', 0.00, 200.00, 0.00, 900.00, '0', '2024-11-07 18:00:00', NULL, 'june tusion fee', '2024');
+INSERT INTO `fess` (`id`, `student_id`, `feehead_id`, `fees_month`, `tusion_fee`, `monthly_discount`, `fee_afterdiscount`, `net_fee`, `common_fee`, `extra_discount`, `due`, `payment`, `summary`, `created_at`, `updated_at`, `fee_details`, `year`, `fees_collect_date`) VALUES
+(15, 38, 0, 'Addmission', 0.00, '0', '0', '2000', 2000.00, 0.00, 0.00, 0.00, NULL, NULL, NULL, 'Admission fee', '2024', NULL),
+(16, 38, 0, 'January-2024', 1000.00, '100', '900', '2900', 0.00, 0.00, 0.00, 2900.00, NULL, '2024-11-07 18:00:00', NULL, 'january tusion fee', '2024', '2024-11-08'),
+(17, 38, 0, 'February-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 900.00, NULL, '2024-11-07 18:00:00', NULL, 'february tusion fee', '2024', NULL),
+(18, 38, 0, 'March-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 0.00, NULL, '2024-11-07 18:00:00', NULL, 'march tusion fee', '2024', NULL),
+(19, 38, 0, 'April-2024', 1000.00, '100', '900', '1800', 0.00, 0.00, 900.00, 1800.00, NULL, '2024-11-07 18:00:00', NULL, 'april tusion fee', '2024', NULL),
+(20, 38, 0, 'May-2024', 1000.00, '100', '900', '900', 0.00, 0.00, 0.00, 900.00, '0', '2024-11-07 18:00:00', NULL, 'may tusion fee', '2024', '2024-11-08'),
+(21, 38, 0, 'June-2024', 1000.00, '100', '900', '900', 0.00, 200.00, 0.00, 900.00, '0', '2024-11-07 18:00:00', NULL, 'june tusion fee', '2024', NULL);
 
 -- --------------------------------------------------------
 
@@ -295,7 +296,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (26, '2024_11_11_155833_add_columns_users_table', 21),
 (27, '2024_11_11_172009_change_users_table', 22),
 (28, '2024_11_11_172730_remove_unique_from_email_on_users_table', 23),
-(29, '2024_11_18_144046_create_smslogs_table', 24);
+(29, '2024_11_18_144046_create_smslogs_table', 24),
+(30, '2024_11_27_152223_add_collect_date_to_fess_table', 25);
 
 -- --------------------------------------------------------
 
@@ -715,7 +717,7 @@ ALTER TABLE `fess`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`

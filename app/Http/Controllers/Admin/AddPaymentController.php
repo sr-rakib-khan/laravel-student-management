@@ -88,6 +88,7 @@ class AddPaymentController extends Controller
                 'extra_discount' => $extra_discount,
                 'payment' => $request->pay_amount - $extra_discount,
                 'summary' => 0,
+                'fees_collect_date' => date('Y-m-d'),
                 'updated_at' => date('Y-m-d'),
             ]);
 
@@ -96,6 +97,7 @@ class AddPaymentController extends Controller
                 'due_amount' => $due,
             ]);
 
+            // send sms
             if ($request->sms == 1) {
                 $student = DB::table('students')->where('id', $request->student_id)->first();
 
@@ -155,6 +157,8 @@ class AddPaymentController extends Controller
                 'due_amount' => $due,
             ]);
 
+
+            //send sms
             if ($request->sms == 1) {
                 $student = DB::table('students')->where('id', $request->student_id)->first();
 
@@ -164,7 +168,7 @@ class AddPaymentController extends Controller
 
                 $number = $student->sms_mobile;
 
-                $text = "Dear " . $student->student_name . " Your payment successfull. Amount tk " . $request->pay_amount - $extra_discount . $sms_settings->footer_text;
+                $text = "Dear " . $student->student_name . " Your payment successfull. Amount tk  " . $request->pay_amount - $extra_discount . $sms_settings->footer_text;
 
                 $url = "http://bulksmsbd.net/api/smsapi";
 
@@ -269,7 +273,50 @@ class AddPaymentController extends Controller
         $course_id = $request->course_id;
         $batch_id = $request->batch_id;
         $section_id = $request->section_id;
+        $start_date = $request->start_date;
 
-        dd($request->start_date);
+        $end_date = $request->end_date;
+
+
+        // dd($start_date, $end_date);
+
+
+        $query = DB::table('students')
+            ->leftJoin('fess', 'students.id', '=', 'fess.student_id')->where('fess.payment', '>', 0);
+
+        // condition
+        if ($course_id) {
+            $query->where('students.course_id', $course_id);
+        }
+        if ($batch_id) {
+            $query->where('students.batch_id', $batch_id);
+        }
+        if ($section_id) {
+            $query->where('students.section_id', $section_id);
+        }
+        if ($start_date && $end_date) {
+            $query->whereBetween('fess.fees_collect_date', [$start_date, $end_date]);
+        }
+
+        // fetch data
+        $studentsWitpay = $query->get();
+
+        return view('payment.search_pay', compact('studentsWitpay', 'course_id', 'batch_id', 'section_id', 'start_date', 'end_date'));
+    }
+
+
+    //all due filter 
+
+    function Allduefilter($course_id, $section_id)
+    {
+        $courseid = $course_id;
+        $sectionid = $section_id;
+        $studentsWithDue = DB::table('students')
+            ->where('students.course_id', $course_id) // Filter by course_id
+            ->where('students.section_id', $section_id) // Filter by section_id
+
+            ->get();
+
+        return view('payment.alldue_filter', compact('studentsWithDue', 'courseid', 'sectionid'));
     }
 }

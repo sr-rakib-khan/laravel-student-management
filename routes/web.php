@@ -297,6 +297,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/dues-list', [AddPaymentController::class, 'AlldueAddPayment'])->name('all.due.addpayment');
 
+
+        Route::get('/dues-list-filter/{course_id}/{section_id}', [AddPaymentController::class, 'Allduefilter'])->name('alldue.filter');
+
+
+
         //pay search
         Route::get('/search-pay-list', [AddPaymentController::class, 'Paysearch'])->name('search.pay');
 

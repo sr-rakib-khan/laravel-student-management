@@ -1,12 +1,16 @@
 @extends('layouts.admin')
 @section('page-content')
+    @php
+        $course = DB::table('courses')->where('id', $courseid)->first();
+        $section = DB::table('sections')->where('course_id', $sectionid)->first();
+    @endphp
     <div class="page-wrapper">
         <div class="content">
             <div class="row mb-3">
-                <div class="col-md-4">
-                    <h4>Add Payment (All Due List)</h4>
+                <div class="col-md-8">
+                    <h4>Add Payment ({{ $course->course_name }} || {{ $section->section_name }} -
+                        {{ $section->schedule_day }} - {{ $section->schedule_time }})</h4>
                 </div>
-                <div class="col-md-4"></div>
                 <div class="col-md-2 text-end">
                     <a href="{{ route('student.fee') }}" class="btn btn-primary btn-sm">Fee</a>
                 </div>
@@ -43,49 +47,9 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="card">
-                <div class="card-body bg-success">
-                    <div class="row">
-                        <div class="col-12 col-lg-3 text-white"><strong>Course: </strong>{{ $course->course_name }} |
-                            {{ $batch->session }}</div>
-                        <div class="col-12 col-lg-3 text-white"><strong>Batch: </strong>{{ $batch->batch_name }}</div>
-                        <div class="col-12 col-lg-3 text-white"><strong>Monthly Fee: </strong>{{ $batch->monthly_fee }}
-                        </div>
-                        <div class="col-12 col-lg-3 text-white"><strong>Status: </strong>
-                            @if ($batch->status == 1)
-                                Running
-                            @else
-                                Draft
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
+
             <div class="card">
                 <div class="card-body">
-                    {{-- <div class="table-top">
-                        <div class="search-set">
-                            <div class="search-input">
-                                <a class="btn btn-searchset"><img src="{{ asset('assets/img/icons/search-white.svg') }}"
-                                        alt="img" /></a>
-                            </div>
-                        </div>
-                        <div class="wordset">
-                            <ul>
-                                <li>
-                                    <a type="button"
-                                        href="{{ route('nodues.students', ['course_id' => session('course_id'), 'batch_id' => session('batch_id')]) }}"
-                                        class="btn btn-success">No
-                                        Dues</a>
-                                </li>
-                                <li>
-                                    <a type="button"
-                                        href="{{ route('dues.students', ['course_id' => session('course_id'), 'batch_id' => session('batch_id')]) }}"
-                                        class="btn btn-danger">Dues</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> --}}
                     <div class="table-responsive">
                         <table class="table datanew">
                             <thead>
@@ -254,8 +218,6 @@
             });
         });
     </script>
-
-
 
     {{-- due list filter jquery code  --}}
     <script type="text/javascript">

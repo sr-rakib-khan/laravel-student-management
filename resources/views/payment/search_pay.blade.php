@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-7"></div>
                 <div class="col-md-2 text-end">
-                    <a href="" class="btn btn-primary btn-sm">Add New Payment</a>
+                    <a href="{{ route('add.payment') }}" class="btn btn-primary btn-sm">Add New Payment</a>
                 </div>
             </div>
         </div>
@@ -90,37 +90,55 @@
                     <table class="table datanew">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>Sl</th>
                                 <th>Name</th>
-                                <th>Photo</th>
-                                <th>Monthly Discount</th>
-                                <th>Ac Status</th>
-                                <th>Discount Amount</th>
-                                <th>Pay Amount</th>
+                                <th>Course</th>
+                                <th>Batch</th>
                                 <th>Fee Head</th>
-                                <th>Check</th>
+                                <th>Authorized</th>
+                                <th>Amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            @if (@isset($studentsWitpay))
+                                @foreach ($studentsWitpay as $key => $item)
+                                    @php
+                                        $course = DB::table('courses')
+                                            ->where('id', $item->course_id)
+                                            ->first();
+                                        $batch = DB::table('batches')
+                                            ->where('id', $item->batch_id)
+                                            ->first();
 
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
+                                        $section = DB::table('sections')
+                                            ->where('id', $item->section_id)
+                                            ->first();
+                                    @endphp
+                                    <tr>
+                                        <td>{{ ++$key }}</td>
+                                        <td>{{ $item->student_name }}</td>
+                                        <td>{{ $course->course_name }}</td>
+                                        <td>{{ $batch->batch_name }} || {{ $section->section_name }}</td>
+                                        <td>{{ $item->fees_month }}</td>
+                                        <td>{{ Auth::user()->name }}</td>
+                                        <td>{{ $item->payment }}</td>
 
-                                    <button class="btn btn-sm btn-primary" type="submit">
-                                        Update
-                                    </button>
-                                </td>
-                            </tr>
+                                        <td>
+                                            <a href="{{ route('view.student-details', $item->student_id) }}"
+                                                title="view"><img src="{{ asset('assets/img/icons/eye.svg') }}"
+                                                    alt="img" /></a>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
+                                                    src="{{ asset('assets/img/icons/printer.svg') }}" alt="img" /></a>
+                                            <a title="eidt"><img src="{{ asset('assets/img/icons/edit.svg') }}"
+                                                    alt="img" /></a>
+                                            <a title="delete"><img src="{{ asset('assets/img/icons/delete.svg') }}"
+                                                    alt="img" /></a>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
